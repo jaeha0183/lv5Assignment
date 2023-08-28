@@ -1,0 +1,17 @@
+
+### Create new Board
+POST http://localhost:8080/api/board
+Content-Type: application/json
+{
+
+
+}
+
+### Get List
+GET http://localhost:8080/api/board
+
+
+
+### UPDATE
+PUT http://localhost:8080/api/board
+Content-Type: application/json
