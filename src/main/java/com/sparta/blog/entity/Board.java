@@ -9,7 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "blog")
+@Table(name = "board")
 @NoArgsConstructor
 public class Board extends Timestamped{
     @Id
@@ -19,6 +19,11 @@ public class Board extends Timestamped{
     private String contents;
     @Column(name = "title")
     private String title;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 
     public Board(BoardRequestDto boardrequestDto) {
