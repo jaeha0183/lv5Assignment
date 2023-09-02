@@ -42,15 +42,15 @@ public class BoardController {
 
 
         //수정
-    @PutMapping("/board/{id}")
-    public BoardResponseDto updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
-        return boardService.updateBoard(id, boardRequestDto);
-    }
+//    @PutMapping("/board/{id}")
+//    public BoardResponseDto updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
+//        return boardService.updateBoard(id, boardRequestDto);
+//    }
 
     // 삭제
-    @DeleteMapping("/board/{id}")
-    public BoardResponseDto deleteBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
-        return boardService.deleteBoard(id, boardRequestDto);
-    }
+//    @DeleteMapping("/board/{id}")
+//    public BoardResponseDto deleteBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto) {
+//        return boardService.deleteBoard(id, boardRequestDto);
+//    }
 
 }

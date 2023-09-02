@@ -19,18 +19,18 @@ public class BoardService {
     }
 
     //수정
-    @Transactional
-    public BoardResponseDto updateBoard(Long id, BoardRequestDto boardRequestDto) {
-        String password = boardRequestDto.getPassword();
-        Board board = findBoard(id);
-
-        if(board.getPassword().equals(password)) {
-            board.update(boardRequestDto);
-            return new BoardResponseDto(board);
-        } else {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
-    }
+//    @Transactional
+//    public BoardResponseDto updateBoard(Long id, BoardRequestDto boardRequestDto) {
+//        String password = boardRequestDto.getPassword();
+//        Board board = findBoard(id);
+//
+//        if(board.getPassword().equals(password)) {
+//            board.update(boardRequestDto);
+//            return new BoardResponseDto(board);
+//        } else {
+//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+//        }
+//    }
 
 
     //조회
@@ -56,18 +56,18 @@ public class BoardService {
 
 
     //삭제
-    public BoardResponseDto deleteBoard(Long id, BoardRequestDto boardRequestDto) {
-        String password = boardRequestDto.getPassword();
-        Board board = findBoard(id);
-
-        if(board.getPassword().equals(password)) {
-            boardRepository.delete(board);
-            return new BoardResponseDto(board);
-        } else {
-            throw new IllegalArgumentException("비밀번호가 다릅니다.");
-        }
-
-    }
+//    public BoardResponseDto deleteBoard(Long id, BoardRequestDto boardRequestDto) {
+////        String password = boardRequestDto.getPassword();
+//        Board board = findBoard(id);
+//
+//        if(board.getPassword().equals(password)) {
+//            boardRepository.delete(board);
+//            return new BoardResponseDto(board);
+//        } else {
+//            throw new IllegalArgumentException("비밀번호가 다릅니다.");
+//        }
+//
+//    }
     //검색
     private Board findBoard(Long id) {
         return boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 게시글이 없습니다."));
