@@ -52,4 +52,6 @@ public class UserController {
 
         return new ResponseEntity<>("상태코드 : " + HttpStatus.OK.value() + ", 회원가입 성공", HttpStatus.OK);
     }
+
+
 }
