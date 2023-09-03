@@ -1,6 +1,7 @@
 package com.sparta.blog.dto;
 
 import com.sparta.blog.entity.Board;
+import com.sparta.blog.entity.User;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public class BoardResponseDto {
 
     public BoardResponseDto(Board board) {
         this.id = board.getId();
+        this.username = board.getUser().getUsername();
         this.title = board.getTitle();
         this.contents = board.getContents();
         this.createdAt = board.getCreatedAt();

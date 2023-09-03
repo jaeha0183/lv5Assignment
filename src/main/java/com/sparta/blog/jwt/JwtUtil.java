@@ -5,11 +5,15 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -59,6 +63,23 @@ public class JwtUtil {
         }
         return null;
     }
+
+//    public void addJwtToCookie(String token, HttpServletResponse res) {
+//        try {
+//            // Cookie의 value에는 특정 문자(예: 공백)가 들어갈 수 없으므로 URLEncoder를 사용하여 인코딩.
+//            // '+' 문자를 '%20'으로 대체하여 공백을 표현.
+//            token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20");
+//
+//            // 새로운 Cookie 객체를 생성. Cookie의 이름은 'AUTHORIZATION_HEADER', 값은 위에서 인코딩한 토큰값으로 설정.
+//            Cookie cookie = new Cookie(AUTHORIZATION_HEADER, token);
+//            cookie.setPath("/"); // 쿠키의 유효 경로를 전체 애플리케이션으로 설정.
+//
+//            // HttpServletResponse 객체에 쿠키를 추가하여 클라이언트에게 전송.
+//            res.addCookie(cookie);
+//        } catch (UnsupportedEncodingException e) { // 인코딩 과정에서 오류가 발생한 경우
+//            log.error(e.getMessage()); // 에러 메시지를 로그로 출력
+//        }
+//    }
 
     // 토큰 검증
     public boolean validateToken(String token) {

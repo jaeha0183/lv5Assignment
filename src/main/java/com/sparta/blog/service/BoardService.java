@@ -3,11 +3,15 @@ package com.sparta.blog.service;
 import com.sparta.blog.dto.BoardRequestDto;
 import com.sparta.blog.dto.BoardResponseDto;
 import com.sparta.blog.entity.Board;
+import com.sparta.blog.entity.User;
 import com.sparta.blog.repository.BoardRepository;
-import jakarta.transaction.Transactional;
+import com.sparta.blog.security.UserDetailsImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+
 
 @Service
 public class BoardService {
@@ -18,28 +22,15 @@ public class BoardService {
         this.boardRepository = boardRepository;
     }
 
-    //수정
-//    @Transactional
-//    public BoardResponseDto updateBoard(Long id, BoardRequestDto boardRequestDto) {
-//        String password = boardRequestDto.getPassword();
-//        Board board = findBoard(id);
-//
-//        if(board.getPassword().equals(password)) {
-//            board.update(boardRequestDto);
-//            return new BoardResponseDto(board);
-//        } else {
-//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-//        }
-//    }
-
 
     //조회
     public List<BoardResponseDto> getBoard() {
         return boardRepository.findAllByOrderByModifiedAtDesc().stream().map(BoardResponseDto::new).toList();
     }
     //생성
-    public BoardResponseDto createBoard(BoardRequestDto boardRequestDto) {
-        Board board = new Board(boardRequestDto);
+    @Transactional
+    public BoardResponseDto createBoard(BoardRequestDto boardRequestDto, User user) {
+        Board board = new Board(boardRequestDto, user);
         Board saveBoard = boardRepository.save(board);
         BoardResponseDto boardResponseDto = new BoardResponseDto(saveBoard);
 
@@ -54,20 +45,29 @@ public class BoardService {
         return new BoardResponseDto(board);
     }
 
-
+    //수정
+    @Transactional
+    public void updateBoard(Long id, BoardRequestDto boardRequestDto, User user) throws IllegalArgumentException {
+        Board board = findBoard(id);
+        if (board.getUser().getUsername().equals(user.getUsername())) {
+            board.update(boardRequestDto, user);
+        } else {
+            throw new IllegalArgumentException("본인 게시물이 아닙니다.");
+        }
+    }
     //삭제
-//    public BoardResponseDto deleteBoard(Long id, BoardRequestDto boardRequestDto) {
-////        String password = boardRequestDto.getPassword();
-//        Board board = findBoard(id);
-//
-//        if(board.getPassword().equals(password)) {
-//            boardRepository.delete(board);
-//            return new BoardResponseDto(board);
-//        } else {
-//            throw new IllegalArgumentException("비밀번호가 다릅니다.");
-//        }
-//
-//    }
+    public BoardResponseDto deleteBoard(Long id, BoardRequestDto boardRequestDto, User user) throws IllegalArgumentException {
+//        String password = boardRequestDto.getPassword();
+        Board board = findBoard(id);
+
+        if(board.getUser().getUsername().equals(user.getUsername())) {
+            boardRepository.delete(board);
+            return new BoardResponseDto(board);
+        } else {
+            throw new IllegalArgumentException("본인 게시물이 아닙니다.");
+        }
+
+    }
     //검색
     private Board findBoard(Long id) {
         return boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 게시글이 없습니다."));

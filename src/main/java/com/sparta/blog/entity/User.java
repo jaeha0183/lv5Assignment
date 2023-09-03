@@ -28,7 +28,6 @@ public class User {
     private UserRoleEnum role;
 
 
-
     public User(String username, String password, UserRoleEnum role) {
         this.username = username;
         this.password = password;

@@ -26,13 +26,15 @@ public class Board extends Timestamped{
     private User user;
 
 
-    public Board(BoardRequestDto boardrequestDto) {
+    public Board(BoardRequestDto boardrequestDto, User user) {
         this.contents = boardrequestDto.getContents();
         this.title = boardrequestDto.getTitle();
+        this.user = user;
     }
 
-    public void update(BoardRequestDto boardrequestDto) {
+    public void update(BoardRequestDto boardrequestDto, User user) {
         this.contents = boardrequestDto.getContents();
         this.title = boardrequestDto.getTitle();
+        this.user = user;
     }
 }
