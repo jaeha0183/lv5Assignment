@@ -33,6 +33,7 @@ public class BoardController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.createBoard(boardRequestDto, userDetails.getUser());
     }
+
 //    //게시글 키워드 조회
 //    @GetMapping("/board/contents")
 //    public List<BoardResponseDto> getBoardByKeyword(String keyword) {
@@ -50,23 +51,13 @@ public class BoardController {
     //수정
     @PutMapping("/board/{id}")
     public ResponseEntity<String> updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        try {
-            boardService.updateBoard(id, boardRequestDto, userDetails.getUser());
-        } catch (Exception e) {
-            return new ResponseEntity<>("상태코드" + HttpStatus.BAD_REQUEST.value() + ", 메세지 : " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("상태코드 : " + HttpStatus.OK.value() + ", 메세지 : 게시물 수정 성공", HttpStatus.OK);
+        return boardService.updateBoard(id, boardRequestDto, userDetails.getUser());
     }
 
     // 삭제
     @DeleteMapping("/board/{id}")
-    public ResponseEntity<String> deleteBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        try {
-            boardService.deleteBoard(id, boardRequestDto, userDetails.getUser());
-        } catch (Exception e) {
-            return new ResponseEntity<>("상태코드" + HttpStatus.BAD_REQUEST.value() + ", 메세지 : " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("상태코드 : " + HttpStatus.OK.value() + ", 메세지 : 게시물 삭제 성공", HttpStatus.OK);
+    public ResponseEntity<String> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.deleteBoard(id, userDetails.getUser());
     }
 
 }
