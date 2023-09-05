@@ -40,7 +40,7 @@ public class BoardService {
     }
 
     public BoardResponseDto getBoardById(Long id) {
-        Board board = boardRepository.findBoardById(id).orElseThrow(() -> new RuntimeException("게시물이 존재하지 않습니다"));
+        Board board = boardRepository.findBoardById(id).orElseThrow(() -> new RuntimeException("게시글이 존재하지 않습니다"));
         return new BoardResponseDto(board);
     }
 
@@ -49,18 +49,18 @@ public class BoardService {
     public ResponseEntity<String> updateBoard(Long id, BoardRequestDto boardRequestDto, User user) {
         Board board = findBoard(id);
         if (!board.getUser().getUsername().equals(user.getUsername())) {
-            return ResponseEntity.status(400).body("상태코드 : " + HttpStatus.BAD_REQUEST.value()  + " 메세지 : 본인 게시물이 아닙니다.");}
+            return ResponseEntity.status(400).body("상태코드 : " + HttpStatus.BAD_REQUEST.value()  + " 메세지 : 본인 게시글이 아닙니다.");}
         board.update(boardRequestDto, user);
-        return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시물 수정 성공");
+        return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시글 수정 성공");
     }
     // 삭제
-    public ResponseEntity<String> deleteBoard(Long id, User user) throws IllegalArgumentException {
+    public ResponseEntity<String> deleteBoard(Long id, User user) {
         Board board = findBoard(id);
 
         if(!board.getUser().getUsername().equals(user.getUsername())) {
-            return ResponseEntity.status(400).body("상태코드 : " + HttpStatus.BAD_REQUEST.value() + " 메세지 : 선생님 게시물이 아닙니다.");}
+            return ResponseEntity.status(400).body("상태코드 : " + HttpStatus.BAD_REQUEST.value() + " 메세지 : 본인 게시글이 아닙니다.");}
         boardRepository.delete(board);
-        return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시물 삭제 성공");
+        return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시글 삭제 성공");
     }
 
     //검색

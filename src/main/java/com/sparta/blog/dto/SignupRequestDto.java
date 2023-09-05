@@ -9,10 +9,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SignupRequestDto {
-    @Pattern(regexp = "^[a-z0-9]{4,10}$", message = "아이디 똑바로")
+    @Pattern(regexp = "^[a-z0-9]{4,10}$", message = "아이디 형식 오류")
     @NotBlank
     private String username;
-    @Pattern(regexp = "^[a-zA-Z0-9]{8,15}$", message = "비밀번호 똑바로")
+    @Pattern(regexp = "^[a-zA-Z0-9]{8,15}$", message = "비밀번호 형식 오류")
     @NotBlank
     private String password;
     private boolean admin = false;
