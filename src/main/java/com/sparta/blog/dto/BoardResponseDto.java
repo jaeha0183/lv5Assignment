@@ -17,6 +17,7 @@ public class BoardResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private List<CommentResponseDto> commentList = new ArrayList<>();
+    private Integer likeCount;
 
     public BoardResponseDto(Board board) {
         this.id = board.getId();
@@ -28,5 +29,7 @@ public class BoardResponseDto {
         for (Comment comment : board.getCommentsList()) {
                 commentList.add(new CommentResponseDto(comment));
         }
+        this.likeCount = board.getLikeList().size();
+
     }
 }

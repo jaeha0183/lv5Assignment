@@ -33,7 +33,7 @@ public class CommentController {
     }
 
     // 좋아요
-    @PostMapping("/comment/like/{id}")
+    @PostMapping("/comment/{id}/like")
     public ResponseEntity<String> postLike(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {

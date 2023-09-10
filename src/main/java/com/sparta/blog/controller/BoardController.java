@@ -52,7 +52,7 @@ public class BoardController {
     }
 
     // 좋아요
-    @PostMapping("/board/like/{id}")
+    @PostMapping("/board/{id}/like")
     public ResponseEntity<String> postLike(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {

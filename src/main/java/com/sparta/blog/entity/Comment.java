@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -27,6 +30,9 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    private List<Like> likeList = new ArrayList<>();
 
     public Comment(CommentRequestDto commentRequestDto, User user, Board board) {
         this.user = user;
