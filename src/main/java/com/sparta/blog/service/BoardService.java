@@ -51,7 +51,7 @@ public class BoardService {
         Board board = findBoard(id);
 
         // ADMIN
-        if (user.getRole() == UserRoleEnum.ADMIN) {
+        if (user.getRole().equals(UserRoleEnum.ADMIN)) {
             board.update(boardRequestDto, user);
             return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : [ADMIN] 게시글 수정 성공");
         }
@@ -68,7 +68,7 @@ public class BoardService {
         Board board = findBoard(id);
 
         // ADMIN
-        if (user.getRole() == UserRoleEnum.ADMIN) {
+        if (user.getRole().equals(UserRoleEnum.ADMIN)) {
             boardRepository.delete(board);
             return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시글 삭제 성공");
         }

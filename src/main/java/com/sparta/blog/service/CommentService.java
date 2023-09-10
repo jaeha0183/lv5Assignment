@@ -36,7 +36,7 @@ public class CommentService {
         Comment comment = findComment(id);
 
         // ADMIN
-        if (user.getRole() == UserRoleEnum.ADMIN) {
+        if (user.getRole().equals(UserRoleEnum.ADMIN)) {
             comment.update(commentRequestDto, user);
             return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : [ADMIN] 댓글 수정 성공");
         }
@@ -54,7 +54,7 @@ public class CommentService {
         Comment comment = findComment(id);
 
         // ADMINN
-        if (user.getRole() == UserRoleEnum.ADMIN) {
+        if (user.getRole().equals(UserRoleEnum.ADMIN)) {
             commentRepository.delete(comment);
             return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : [ADMIN] 댓글 삭제 성공");
         }
