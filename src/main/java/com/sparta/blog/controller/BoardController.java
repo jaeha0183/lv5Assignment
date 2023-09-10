@@ -34,19 +34,10 @@ public class BoardController {
         return boardService.createBoard(boardRequestDto, userDetails.getUser());
     }
 
-//    //게시글 키워드 조회
-//    @GetMapping("/board/contents")
-//    public List<BoardResponseDto> getBoardByKeyword(String keyword) {
-//        return boardService.getBoardByKeyword(keyword);
-//    }
-
     @GetMapping("/board/{id}")
     public BoardResponseDto getBoardById(@PathVariable Long id) {
         return boardService.getBoardById(id);
     }
-
-
-
 
     //수정
     @PutMapping("/board/{id}")
@@ -58,6 +49,14 @@ public class BoardController {
     @DeleteMapping("/board/{id}")
     public ResponseEntity<String> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.deleteBoard(id, userDetails.getUser());
+    }
+
+    // 좋아요
+    @PostMapping("/board/like/{id}")
+    public ResponseEntity<String> postLike(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.likeBoard(id, userDetails.getUser());
     }
 
 }

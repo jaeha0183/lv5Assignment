@@ -3,26 +3,31 @@ package com.sparta.blog.service;
 import com.sparta.blog.dto.BoardRequestDto;
 import com.sparta.blog.dto.BoardResponseDto;
 import com.sparta.blog.entity.Board;
+import com.sparta.blog.entity.Like;
 import com.sparta.blog.entity.User;
 import com.sparta.blog.entity.UserRoleEnum;
 import com.sparta.blog.repository.BoardRepository;
-import com.sparta.blog.security.UserDetailsImpl;
+import com.sparta.blog.repository.LikeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
+
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final LikeRepository likeRepository;
 
-    public BoardService(BoardRepository boardRepository) {
+
+    public BoardService(BoardRepository boardRepository, LikeRepository likeRepository) {
         this.boardRepository = boardRepository;
+        this.likeRepository = likeRepository;
     }
 
 
@@ -84,6 +89,18 @@ public class BoardService {
     //검색
     private Board findBoard(Long id) {
         return boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 게시글이 없습니다."));
+    }
+
+    public ResponseEntity<String> likeBoard(Long id, User user) {
+        Board board = findBoard(id);
+
+        Optional<Like> like = likeRepository.findByUserIdAndBoardId(user.getId(), id);
+        if (like.isEmpty()) {
+            likeRepository.save(new Like(user, board));
+            return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시글 좋아요 추가 성공");
+        }
+        likeRepository.delete(like.get());
+        return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시글 좋아요 삭제성공");
     }
 
 }

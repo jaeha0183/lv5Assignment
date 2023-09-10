@@ -1,12 +1,10 @@
 package com.sparta.blog.service;
 
 import com.sparta.blog.dto.CommentRequestDto;
-import com.sparta.blog.entity.Board;
-import com.sparta.blog.entity.Comment;
-import com.sparta.blog.entity.User;
-import com.sparta.blog.entity.UserRoleEnum;
+import com.sparta.blog.entity.*;
 import com.sparta.blog.repository.BoardRepository;
 import com.sparta.blog.repository.CommentRepository;
+import com.sparta.blog.repository.LikeRepository;
 import com.sparta.blog.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,12 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
 
 
     // 댓글 작성
@@ -76,4 +77,17 @@ public class CommentService {
         return commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 댓글이 없습니다."));
     }
 
+    // 좋아요
+    public ResponseEntity<String> likeComment(Long id, User user) {
+        Comment comment = findComment(id);
+
+        Optional<Like> like = likeRepository.findByUserIdAndCommentId(user.getId(), id);
+
+        if (like.isEmpty()) {
+            likeRepository.save(new Like(user, comment));
+            return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시글 댓글 좋아요 추가 성공");
+        }
+        likeRepository.delete(like.get());
+        return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시글 댓글 좋아요 삭제 성공");
+    }
 }
