@@ -52,8 +52,8 @@ public class BoardController {
     }
 
     // 좋아요
-    @PostMapping("/board/{id}/like")
-    public ResponseEntity<String> postLike(
+    @PutMapping("/board/{id}/like")
+    public ResponseEntity<String> boardLike(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.likeBoard(id, userDetails.getUser());

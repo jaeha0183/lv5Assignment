@@ -33,8 +33,8 @@ public class CommentController {
     }
 
     // 좋아요
-    @PostMapping("/comment/{id}/like")
-    public ResponseEntity<String> postLike(
+    @PutMapping("/comment/{id}/like")
+    public ResponseEntity<String> commentLike(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.likeComment(id, userDetails.getUser());
